@@ -23,23 +23,13 @@ const App = () => {
     setSelected(num)
   }
 
-  const findBiggest = () => {
-    let largest = 0;
-
-    for (var i = 0; i < points.length; i++) {
-        if (largest < points[i] ) {
-            largest = i;
-        }
-    }
-
-    setBiggest(largest)
-  }
-
   const updateVotes = () => {
     const copy = [ ...points ]
     copy[selected] += 1
     setPoints(copy)
-    findBiggest()
+
+    if (copy[selected] > biggest) setBiggest(selected)
+    
   }
 
   return (
