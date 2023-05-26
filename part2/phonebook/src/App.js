@@ -25,13 +25,26 @@ const App = () => {
   const addEntry = (event) => {
     event.preventDefault()
 
+    const nameObject = {
+      name: newName,
+      number: newNumber
+    }
+
     if (handleSameName()) {
-      alert(`${newName} is already added to the phonebook`)
-    } else {
-      const nameObject = {
-        name: newName,
-        number: newNumber
+      if (window.confirm(`${newName} is already added to the phonebook. Replace the old number with the new one?`)) {
+        const id = getIdFromName()
+        handleEntries
+          .update(id, nameObject)
+          .then(updatedNote => {
+            setPersons(persons.map( p => {
+              let returnPerson = p
+              if (p.id === id) returnPerson.number = newNumber
+              return(returnPerson)
+            }))
+          })
       }
+
+    } else {
 
       handleEntries
         .create(nameObject)
@@ -57,6 +70,11 @@ const App = () => {
     return persons.some(person => person.name === newName)
   }
 
+  const getIdFromName = () => {
+    const person = persons.find(person => person.name === newName)
+    return person.id
+  }
+
   const entriesToShow = persons.filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
 
   // DELETE ENTRY
@@ -69,9 +87,7 @@ const App = () => {
         .then(response => {
           setPersons(persons.filter(p => p.id !== id))
         })
-
     }
-
   }
 
   return (
