@@ -12,6 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
 
+  const [message, setMessage] = useState('')
+
   const hook = () => {
     handleEntries
       .getAll()
@@ -41,7 +43,17 @@ const App = () => {
               if (p.id === id) returnPerson.number = newNumber
               return(returnPerson)
             }))
+            setMessage(`${newName}'s number was updated.`)
+            setTimeout(() => { setMessage(null) }, 5000)
           })
+          .catch( error => {
+              setMessage(`${newName} was already deleted from the server.`)
+              setTimeout(() => {
+                setMessage(null)
+              }, 5000)
+              setPersons(persons.filter(n => n.id !== id))
+            }
+          )
       }
 
     } else {
@@ -50,6 +62,12 @@ const App = () => {
         .create(nameObject)
         .then(response => {
           setPersons(persons.concat(response.data))
+          setMessage(
+            `${newName} was added to the phonebook.`
+          )
+          setTimeout(() => {
+            setMessage(null)
+          }, 5000)
         })
     }
 
@@ -77,7 +95,7 @@ const App = () => {
 
   const entriesToShow = persons.filter(entry => entry.name.toLowerCase().includes(filter.toLowerCase()))
 
-  // DELETE ENTRY
+  // delete entry
 
   const deleteEntry = (id) => {
 
@@ -90,9 +108,38 @@ const App = () => {
     }
   }
 
+  // error message display
+
+  const Notification = ({ message }) => {
+
+    const messageStyle = {
+      color: 'green',
+      background: 'lightgrey',
+      fontSize: 20,
+      borderStyle: 'solid',
+      borderRadius: 5,
+      padding: 10,
+      marginBottom: 10
+    }
+
+    if (message == null) {
+      return null
+    }
+
+    return (
+      <div className='notification' style={messageStyle}>
+        {message}
+      </div>
+    )
+  }
+
+  // application display
+
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Notification message={message} />
 
       <Filter filter={filter} setFilter={setFilter}/>
 
