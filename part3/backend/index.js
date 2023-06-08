@@ -25,6 +25,15 @@ let notes = [
     }
 ]
 
+// generate an id number
+
+const generateId = () => {
+    const maxId = notes.length > 0
+      ? Math.max(...notes.map(n => n.id))
+      : 0
+    return maxId + 1
+  }
+
 // gets basic data for the root page 
 
 app.get('/', (request, response) => {
@@ -64,7 +73,23 @@ app.delete('/api/notes/:id', (request, response) => {
 // .body is done with the json parser
 
 app.post('/api/notes', (request, response) => {
-    const note = request.body
+    const body = request.body
+
+    if (!body.content) {
+        return response.status(400).json({
+            error: 'content missing'
+        })
+    }
+
+    const note = {
+        content: body.content,
+        important: body.important || false,
+        id: generateId()
+
+    }
+
+    notes = notes.concat(note)
+
     console.log(note)
     response.json(note)
 })
