@@ -1,6 +1,15 @@
 const express = require('express')
 const app = express()
 
+// active json-parser
+app.use(express.json())
+
+// random id generator function
+
+const generateId = () => {
+    return Math.floor(Math.random() * 5000)
+}
+
 // root page
 
 app.get('/', (request, response) => {
@@ -10,7 +19,6 @@ app.get('/', (request, response) => {
 // hardcoded data
 
 let persons = [
-    [
         { 
           "id": 1,
           "name": "Arto Hellas", 
@@ -32,7 +40,6 @@ let persons = [
           "number": "39-23-6423122"
         }
     ]
-]
 
 // get request for /api/persons
 
@@ -40,10 +47,66 @@ app.get('/api/persons', (request, response) => {
     response.json(persons)
 })
 
+// get request for /api/persons/:id
+
+app.get('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    const person = persons.find(person => person.id === id)
+
+    if (person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
+})
+
 // get request for /info
 
 app.get('/info', (request, response) => {
-    response.send('<p>Phonebook has info for x people</p><p>date goes here</p>')
+    const people = persons.length
+    const date = new Date()
+    response.send(`<p>Phonebook has info for ${people} people</p><p>${date}</p>`)
+})
+
+// delete request for /api/persons/:id
+
+app.delete('/api/persons/:id', (request, response) => {
+    const id = Number(request.params.id)
+    persons = persons.filter(person => person.id !== id)
+    response.status(204).end()
+})
+
+// post request for new entries to /api/persons
+
+app.post('/api/persons', (request, response) => {
+    const body = request.body
+    console.log(body)
+
+    if (!body.name || !body.number) {
+        return response.status(400).json({
+            error: 'name or number is missing'
+        })
+    }
+
+    if (persons.map(name => body.name === name)) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    }
+
+    const id = generateId()
+
+    const person = {
+        "id": id,
+        "name": body.name,
+        "number": body.number
+    }
+    
+    persons = persons.concat(person)
+
+    console.log(person)
+    response.json(person)
+
 })
 
 // run the server
