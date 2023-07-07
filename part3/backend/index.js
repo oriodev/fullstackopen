@@ -8,6 +8,10 @@ const app = express()
 const cors = require('cors')
 app.use(cors())
 
+// import static
+
+app.use(express.static('build'))
+
 // active json-parser
 
 app.use(express.json())

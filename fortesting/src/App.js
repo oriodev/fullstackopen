@@ -9,7 +9,7 @@ const App = () => {
   const [notes, setNotes] = useState([])
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('some error happened...')
+  const [errorMessage, setErrorMessage] = useState('')
 
   // const hook = () => {
   //   console.log('effect')
@@ -81,7 +81,7 @@ const App = () => {
   // notification component
   
   const Notification = ({ message }) => {
-    if (message == null) {
+    if (message == null || message === '') {
       return null
     } 
 
