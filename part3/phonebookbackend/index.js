@@ -1,8 +1,13 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
-// active json-parser
+morgan.token('body', (req) => JSON.stringify(req.body))
+
+// middleware
 app.use(express.json())
+app.use(morgan('tiny :body'))
+
 
 // random id generator function
 
@@ -43,7 +48,7 @@ let persons = [
 
 // get request for /api/persons
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons',  (request, response) => {
     response.json(persons)
 })
 
@@ -78,9 +83,10 @@ app.delete('/api/persons/:id', (request, response) => {
 
 // post request for new entries to /api/persons
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', morgan(), (request, response) => {
     const body = request.body
     console.log(body)
+    console.log('doing a thing')
 
     if (!body.name || !body.number) {
         return response.status(400).json({
@@ -88,11 +94,11 @@ app.post('/api/persons', (request, response) => {
         })
     }
 
-    if (persons.map(name => body.name === name)) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
-    }
+    // if (persons.map(name => body.name === name)) {
+    //     return response.status(400).json({
+    //         error: 'name must be unique'
+    //     })
+    // }
 
     const id = generateId()
 

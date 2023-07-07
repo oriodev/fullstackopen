@@ -3,9 +3,32 @@
 const express = require('express')
 const app = express()
 
+// import cors
+
+const cors = require('cors')
+app.use(cors())
+
 // active json-parser
 
 app.use(express.json())
+
+// make our own middleware
+
+// const requestLogger = (request, response, next) => {
+//     console.log('Method:', request.method)
+//     console.log('Path:  ', request.path)
+//     console.log('Body:  ', request.body)
+//     console.log('---')
+//     next()
+//   }
+
+// app.use(requestLogger)
+
+// const unknownEndpoint = (request, response) => {
+//     response.status(404).send({ error: 'unknown endpoint' })
+//   }
+  
+//   app.use(unknownEndpoint)
 
 // hardcoded notes json
 
@@ -96,7 +119,7 @@ app.post('/api/notes', (request, response) => {
 
 // runs the server
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
