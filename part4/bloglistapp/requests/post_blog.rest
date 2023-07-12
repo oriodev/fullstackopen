@@ -2,7 +2,6 @@ POST http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-    "title": "bfffloooop",
     "author": "bloop",
     "url": "www.bloopus.com",
     "likes": 34534

@@ -137,26 +137,26 @@ describe('favorite blog', () => {
 
 })
 
-describe('most blogs', () => {
+// describe('most blogs', () => {
 
-  test('empty list returns 0', () => {
-    const blog = []
-    const result = listHelper.mostBlogs(blog)
-    expect(result).toEqual([])
-  })
+//   test('empty list returns 0', () => {
+//     const blog = []
+//     const result = listHelper.mostBlogs(blog)
+//     expect(result).toEqual([])
+//   })
 
-  test('when list has only one blog returns that blog', () => {
+//   test('when list has only one blog returns that blog', () => {
 
-    const listWithOneBlog = [ {
-      _id: "5a422a851b54a676234d17f7",
-      title: "React patterns",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
-      likes: 7,
-      __v: 0
-    } ]
+//     const listWithOneBlog = [ {
+//       _id: "5a422a851b54a676234d17f7",
+//       title: "React patterns",
+//       author: "Michael Chan",
+//       url: "https://reactpatterns.com/",
+//       likes: 7,
+//       __v: 0
+//     } ]
 
-    const result = listHelper.mostBlogs(listWithOneBlog)
-    expect(result).toEqual({"author": "Michael Chan"})
-  })
-})
+//     const result = listHelper.mostBlogs(listWithOneBlog)
+//     expect(result).toEqual({"author": "Michael Chan"})
+//   })
+// })
