@@ -2,7 +2,9 @@ POST http://localhost:3003/api/blogs/
 content-type: application/json
 
 {
-    "author": "bloop",
+    "title": "sdfdsf",
+    "author": "blojjjjop",
     "url": "www.bloopus.com",
-    "likes": 34534
+    "likes": 34534,
+    "user": "64b2cd054ca9eec8e72827cb"
 }

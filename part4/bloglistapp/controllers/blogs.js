@@ -10,16 +10,27 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
   try {
     const body = request.body
+    console.log(body.user)
+
+    const user = await User.findById(body.user)
+    console.log(user)
+    
 
     const blog = new Blog({
       title: body.title,
       author: body.author,
       url: body.url,
-      likes: body.likes
+      likes: body.likes,
+      user: user.id
     })
+
+    console.log(blog.user)
 
 
     const result = await blog.save()
+    user.blogs = user.blogs.concat(result._id)
+    console.log(user.blogs)
+    await user.save()
     response.status(201).json(result)
   } catch {
     response.status(400).end()
