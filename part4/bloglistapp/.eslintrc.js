@@ -39,6 +39,6 @@ module.exports = {
       'error',
       'never'
     ],
-    'no-unused-vars': false
+    'no-unused-vars': 0
   }
 }
