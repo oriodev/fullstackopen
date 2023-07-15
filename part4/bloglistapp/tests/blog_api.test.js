@@ -38,12 +38,12 @@ describe('the addition of a new blog', () => {
 
   test('a valid blog can be added', async () => {
     const newBlog = {
-        _id: "5a422bc61b54a676234d17fd",
-        title: "Test Post",
-        author: "Michael Ranger",
-        url: "https://testpost.com/",
-        likes: 37,
-        __v: 0
+      _id: '5a422bc61b54a676234d17fd',
+      title: 'Test Post',
+      author: 'Michael Ranger',
+      url: 'https://testpost.com/',
+      likes: 37,
+      __v: 0
     }
 
     await api
@@ -66,18 +66,18 @@ describe('the addition of a new blog', () => {
 
   test('missing likes defaults to 0', async () => {
     const newBlog = {
-      _id: "5a422bc61b54a676234d17fd",
-      title: "Test Post",
-      author: "Michael Ranger",
-      url: "https://testpost.com/",
+      _id: '5a422bc61b54a676234d17fd',
+      title: 'Test Post',
+      author: 'Michael Ranger',
+      url: 'https://testpost.com/',
       __v: 0
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(201)
-    .expect('Content-Type', /application\/json/)
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDB()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
@@ -91,15 +91,15 @@ describe('the addition of a new blog', () => {
 
   test('blog cannot be made without title or url', async () => {
     const newBlog = {
-      _id: "5a422bc61b54a676234d17fd",
-      author: "Michael Ranger",
+      _id: '5a422bc61b54a676234d17fd',
+      author: 'Michael Ranger',
       __v: 0
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400)
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
 
     const blogsAtEnd = await helper.blogsInDB()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
@@ -134,10 +134,10 @@ describe('updating a blog', () => {
     const blogToUpdate = blogsAtStart[0]
 
     const blog = {
-      id: "5a422a851b54a676234d17f7",
-      title: "React patterns",
-      author: "Michael Chan",
-      url: "https://reactpatterns.com/",
+      id: '5a422a851b54a676234d17f7',
+      title: 'React patterns',
+      author: 'Michael Chan',
+      url: 'https://reactpatterns.com/',
       likes: 20
     }
 
