@@ -37,6 +37,20 @@ describe('where there are initial blogs', () => {
 })
 
 describe('the addition of a new blog', () => {
+  let userId
+
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('blogSecret', 10)
+    const user = new User({ username: 'blogUser', passwordHash })
+
+    await user.save()
+
+    const users = await helper.usersInDb()
+
+    userId = users[0].id
+  })
 
   // verify that post requests can be made
 
@@ -47,7 +61,7 @@ describe('the addition of a new blog', () => {
       author: 'Michael Ranger',
       url: 'https://testpost.com/',
       likes: 37,
-      user: '64b2cd054ca9eec8e72827cb',
+      user: userId,
       __v: 0,
     }
 
@@ -75,7 +89,7 @@ describe('the addition of a new blog', () => {
       title: 'Test Post',
       author: 'Michael Ranger',
       url: 'https://testpost.com/',
-      user: '64b2cd054ca9eec8e72827cb',
+      user: userId,
       __v: 0
     }
 
@@ -191,6 +205,34 @@ describe('when there is initially one user in db', () => {
     const usernames = usersAtEnd.map(u => u.username)
     expect(usernames).toContain(newUser.username)
   })
+})
+
+describe('adding new users', () => {
+  beforeEach(async () => {
+    await User.deleteMany({})
+
+    const passwordHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+  })
+
+  test('fails when username and password are less than or equal to 3', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'ab',
+      name: 'Matti Luukkainen',
+      password: 'sal',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+
+  })
+
 })
 
 
