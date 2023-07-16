@@ -6,12 +6,14 @@ const logger = require('./utils/logger')
 const mongoose = require('mongoose')
 require('express-async-errors')
 
+const middleware = require('./utils/middleware')
+
+app.use(middleware.tokenExtractor)
 
 const blogsRouter = require('./controllers/blogs')
 const usersRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
 
-const middleware = require('./utils/middleware')
 
   
 mongoose.connect(config.MONGODB_URI)

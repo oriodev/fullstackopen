@@ -1,9 +1,10 @@
 POST http://localhost:3003/api/blogs/
 content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1haW4gc3VzZXIiLCJpZCI6IjY0YjJkNGZhYWI5MDU1YjIwMjA0Mzk5YyIsImlhdCI6MTY4OTQ1MTQ3MX0.RYmnM4M_NHMvnOtZt9lMIy1MPJ1t3LixKw1jB6QfP2M
 
 {
-    "title": "sdfdsf",
-    "author": "blojjjjop",
+    "title": "athingishere",
+    "author": "mr thing",
     "url": "www.bloopus.com",
     "likes": 34534,
     "user": "64b2cd054ca9eec8e72827cb"
