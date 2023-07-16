@@ -27,37 +27,29 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
     user.blogs = user.blogs.concat(result._id)
     await user.save()
     response.status(201).json(result)
-  } catch {
-    response.status(400).end()
+  } catch (error) {
+    console.log(error)
+    response.status(400).json({ error: 'blog not successfully made'})
   }
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
 
-  // can only delete blog if you are the owner of the blog
-  // token sent with the request must match that of the blog's creator
-  // could compare user id's instead?
+  try {
+    const blog = await Blog.findById(request.params.id)
+    const user = request.user
 
-  // const blog = await Blog.findById(...)
-
-  const blog = await Blog.findById(request.params.id)
-
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)  
-  if (!decodedToken.id) {    
-    return response.status(401).json({ 
-      error: 'token invalid' 
-    })  
-  }  
-
-  if ( blog.user.toString() === decodedToken.id.toString() ) {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
-  } else {
-    return response.status(401).json({
-      error: 'you cannot delete blogs you did not create'
-    })
+    if ( blog.user.toString() === user.id.toString() ) {
+      await Blog.findByIdAndRemove(request.params.id)
+      response.status(204).end()
+    } else {
+      return response.status(401).json({
+        error: 'you cannot delete blogs you did not create'
+      })
+    }
+  } catch {
+    response.status(400).json({ error: 'blog not successfully deleted'})
   }
-
 
 })
 

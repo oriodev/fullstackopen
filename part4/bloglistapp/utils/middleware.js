@@ -45,16 +45,20 @@ const tokenExtractor = (request, response, next) => {
 
 const userExtractor = async (request, response, next) => {
   // code that extracts the user
+  try{
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  if (!decodedToken.id) {    
-    return response.status(401).json({ 
-      error: 'token invalid' 
-    })  
+    if (!decodedToken.id) {    
+      return response.status(401).json({ 
+        error: 'token invalid' 
+      })  
+    }
+
+    request.user = await User.findById(decodedToken.id)
+
+  } catch(error) {
+    console.log('error', error)
   }  
-
-  request.user = await User.findById(decodedToken.id)
-
   next()
 }
 

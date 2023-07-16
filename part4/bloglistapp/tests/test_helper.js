@@ -1,6 +1,19 @@
 const Blog = require('../models/blog')
 const User = require('../models/user')
 
+const initialUsers = [
+  {
+    username: 'username',
+    name: 'name',
+    password: 'password'
+  },
+  {
+    username: 'username2',
+    name: 'name2',
+    password: 'password2'
+  }
+]
+
 const initialBlogs = [
   {
     _id: '5a422a851b54a676234d17f7',
@@ -8,7 +21,7 @@ const initialBlogs = [
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
     likes: 7,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   },
   {
@@ -17,7 +30,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   },
   {
@@ -26,7 +39,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   },
   {
@@ -35,7 +48,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   },
   {
@@ -44,7 +57,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   },
   {
@@ -53,7 +66,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
-    user: '64b2cd054ca9eec8e72827cb',
+    user: '64b3e253d837bbc1b939d8b0',
     __v: 0
   }  
 ]
@@ -70,6 +83,7 @@ const usersInDb = async () => {
 
 module.exports = {
   initialBlogs,
+  initialUsers,
   blogsInDB,
   usersInDb
 }

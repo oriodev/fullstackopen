@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
 const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
@@ -9,12 +11,40 @@ const User = require('../models/user')
 
 const helper = require('./test_helper')
 
+const globals = {}
+
 // reset the database after each test
 
 beforeEach(async () => {
-  await Blog.deleteMany({})
-  await Blog.insertMany(helper.initialBlogs)
 
+  // sets up the user database
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
+
+  allUsers = await helper.usersInDb()
+  
+  const mainUser = {
+    username: allUsers[0].username,
+    id: allUsers[0].id
+  }
+
+  const token = jwt.sign(mainUser, process.env.SECRET)
+
+  globals.token = `Bearer ${token}`
+  globals.mainUser = mainUser
+
+  // sets up the blog database
+
+  allBlogs = helper.initialBlogs.map((blog => {
+    blog.user = globals.mainUser.id.toString()
+    return blog
+  }))
+
+  await Blog.deleteMany({})
+  await Blog.insertMany(allBlogs)
+
+  globals.allBlogs = await helper.blogsInDB()
+  
 })
 
 // verify that GET api call returns correct number of blogs
@@ -37,20 +67,7 @@ describe('where there are initial blogs', () => {
 })
 
 describe('the addition of a new blog', () => {
-  let userId
 
-  beforeEach(async () => {
-    await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('blogSecret', 10)
-    const user = new User({ username: 'blogUser', passwordHash })
-
-    await user.save()
-
-    const users = await helper.usersInDb()
-
-    userId = users[0].id
-  })
 
   // verify that post requests can be made
 
@@ -61,12 +78,13 @@ describe('the addition of a new blog', () => {
       author: 'Michael Ranger',
       url: 'https://testpost.com/',
       likes: 37,
-      user: userId,
+      user: globals.mainUser.id,
       __v: 0,
     }
 
     await api
       .post('/api/blogs')
+      .set('Authorization', globals.token)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -89,12 +107,13 @@ describe('the addition of a new blog', () => {
       title: 'Test Post',
       author: 'Michael Ranger',
       url: 'https://testpost.com/',
-      user: userId,
+      user: globals.mainUser.id,
       __v: 0
     }
 
     await api
       .post('/api/blogs')
+      .set('Authorization', globals.token)
       .send(newBlog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
@@ -119,6 +138,7 @@ describe('the addition of a new blog', () => {
 
     await api
       .post('/api/blogs')
+      .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0YWZkY2Y0MTRmMDhkOGI0MDg5MjA4ZSIsImlhdCI6MTY4OTUwMTg2MH0.PRSwpncsWf0VTpAzKu-Zy_GycUR2iL1piVkAHbtWnd8')
       .send(newBlog)
       .expect(400)
 
@@ -130,11 +150,11 @@ describe('the addition of a new blog', () => {
 
 describe('deletion of a blog', () => {
   test('succeeds with status code 204 if id is valid', async () => {
-    const blogsAtStart = await helper.blogsInDB()
-    const blogToDelete = blogsAtStart[0]
+    const blogToDelete = globals.allBlogs[0]
 
     await api
       .delete(`/api/blogs/${blogToDelete.id}`)
+      .set('Authorization', globals.token)
       .expect(204)
 
     const blogsAtEnd = await helper.blogsInDB()
@@ -175,14 +195,6 @@ describe('updating a blog', () => {
 
 
 describe('when there is initially one user in db', () => {
-  beforeEach(async () => {
-    await User.deleteMany({})
-
-    const passwordHash = await bcrypt.hash('sekret', 10)
-    const user = new User({ username: 'root', passwordHash })
-
-    await user.save()
-  })
   
   test('creation succeeds with a fresh username', async () => {
     const usersAtStart = await helper.usersInDb()
