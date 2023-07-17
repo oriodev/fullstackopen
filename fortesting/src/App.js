@@ -10,16 +10,8 @@ const App = () => {
   const [newNote, setNewNote] = useState('a new note...')
   const [showAll, setShowAll] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-
-  // const hook = () => {
-  //   console.log('effect')
-  //   axios
-  //     .get('http://localhost:3001/notes')
-  //     .then(response => {
-  //       console.log('promise fulfilled')
-  //       setNotes(response.data)
-  //     })
-  // }
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   
   useEffect(() => {
     noteService
@@ -108,17 +100,57 @@ const App = () => {
       </div>
     )
   }
+
+  // handle login function
+
+  const handleLogin = (event) => {
+    event.preventDefault()
+    console.log('logging in with', username, password)
+  }
   
+// returns the main page
 
   return (
     <div>
       <h1>Notes</h1>
+
+    {/* displays notification/error messages */}
+
       <Notification message={errorMessage} />
+
+      {/* the login form */}
+
+      <form onSubmit={handleLogin}>
+        <div>
+          username
+            <input
+              type="text"
+              value={username}
+              name="Username"
+              onChange={( {target} ) => setUsername(target.value)}
+            /> 
+        </div>
+        <div>
+          password
+            <input
+              type="password"
+              value={password}
+              name="Password"
+              onChange={( {target} ) => setPassword(target.value)}
+            />
+        </div>
+      </form>
+
+      {/* toggle whether all notes are shown or just important notes */}
+
       <div>
         <button onClick={() => setShowAll(!showAll)}>
           show {showAll ? 'important' : 'all'}
         </button>
       </div>
+
+      {/* displays all of the notes */}
+
       <ul>
         { notesToShow.map(
             note => <Note 
@@ -128,10 +160,15 @@ const App = () => {
                     /> 
         )} 
       </ul>
+
+      {/* creates the form to add new notes */}
+
       <form onSubmit={addNote}>
         <input value={newNote} onChange={handleNoteChange}/>
         <button type='submit'>save</button>
       </form>
+
+
       <Footer />
     </div>
   )
