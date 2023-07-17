@@ -16,7 +16,7 @@ const initialUsers = [
 
 const initialBlogs = [
   {
-    _id: '5a422a851b54a676234d17f7',
+    _id: '5a422a 851b54a676234d17f7',
     title: 'React patterns',
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',

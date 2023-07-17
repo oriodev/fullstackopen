@@ -3,9 +3,9 @@ content-type: application/json
 authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY0YWZkY2Y0MTRmMDhkOGI0MDg5MjA4ZSIsImlhdCI6MTY4OTUwMTg2MH0.PRSwpncsWf0VTpAzKu-Zy_GycUR2iL1piVkAHbtWnd8
 
 {
-    "title": "root i hope",
-    "author": "mr thing",
-    "url": "www.bloopus.com",
-    "likes": 34534,
+    "title": "Title Five",
+    "author": "Author Five",
+    "url": "www.urlfive.com",
+    "likes": 5,
     "user": "64b2cd054ca9eec8e72827cb"
 }
