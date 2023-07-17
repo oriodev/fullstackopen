@@ -107,8 +107,6 @@ const App = () => {
           setNotes(notes.filter(n => n.id !== id))
         })
     }
-
-
   
   const noteForm = () => (
     <form onSubmit={addNote}>
