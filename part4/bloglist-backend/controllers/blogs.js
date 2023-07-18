@@ -18,14 +18,16 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
     const blog = new Blog({
       title: body.title,
       author: body.author,
-      url: body.url,
+      url: body.url, 
       likes: body.likes,
       user: user.id
     })
 
     const result = await blog.save()
+
     user.blogs = user.blogs.concat(result._id)
     await user.save()
+
     response.status(201).json(result)
   } catch (error) {
     console.log(error)
@@ -57,6 +59,7 @@ blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body
 
   const blog = {
+    user: user.id,
     id: body.id,
     title: body.title,
     author: body.author,

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 import Blog from './components/Blog'
+import BlogForm from './components/BlogForm'
 import loginForm from './components/loginForm'
 import logoutBtn from './components/logoutBtn'
 import Notification from './components/Notification'
@@ -14,29 +15,18 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
 
   const [errorMessage, setErrorMessage] = useState('')
-
-  const [newTitle, setNewTitle] = useState('')
-  const [newAuthor, setNewAuthor] = useState('')
-  const [newURL, setnewURL] = useState('')
   
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+
+  const [blogVisible, setBlogVisible] = useState('')
 
   // get all initial blogs and set them to useState variable
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
-  }, [])
-
-  // keeps a user logged in
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-    }
   }, [])
 
   // display all the blogs
@@ -51,66 +41,8 @@ const App = () => {
     )
   }
 
-  // creates the blog form
-
-  const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <h2>add new blog</h2>
-      <p>
-        <label>title: </label> <input value={newTitle} onChange={handleTitleChange}/>
-      </p>
-      <p>
-        <label>author: </label> <input value={newAuthor} onChange={handleAuthorChange}/>
-      </p>
-      <p>
-        <label>url: </label> <input value={newURL} onChange={handleURLChange}/>
-      </p>
-  
-      <button type="submit">add</button>
-    </form>      
-  )
-
-  // handles changes in the form
-
-  const handleTitleChange = (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleURLChange = (event) => {
-    setnewURL(event.target.value)
-  }
-
-  // handles adding a new blog
-
-  const addBlog = (event) => {
-    event.preventDefault()
-
-    const newBlog = {
-      title: newTitle,
-      author: newAuthor,
-      url: newURL
-    }
-
-    blogService
-    .create(newBlog)
-      .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-      setNewTitle('')
-      setNewAuthor('')
-      setnewURL('')
-    })
-
-    setErrorMessage('blog added')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-  }
-
   // handles login
+
   const handleLogin = async (event) => {
     event.preventDefault()
 
@@ -154,6 +86,41 @@ const App = () => {
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+  }
+
+  // keeps a user logged in
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
+  // handles login visibility
+
+  const blogForm = () => {
+    const hideWhenVisible = { display: blogVisible ? 'none' : '' }
+    const showWhenVisible = { display: blogVisible ? '' : 'none' }
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setBlogVisible(true)}>add blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <BlogForm 
+              setBlogs={setBlogs}
+              blogs={blogs}
+              setBlogVisible={setBlogVisible}
+              setErrorMessage={setErrorMessage}
+            />
+            <button onClick={() => setBlogVisible(false)}>cancel</button>
+        </div>
+      </div>
+    )
   }
 
   // creates the main page
