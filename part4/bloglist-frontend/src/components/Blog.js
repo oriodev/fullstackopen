@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = (props) => {
+  const blog = props.blog
   const [viewBlogState, setViewBlogState] = useState('')
 
   const blogStyle = {
@@ -18,22 +18,18 @@ const Blog = ({blog}) => {
   }
 
   const updateLikes = async () => {
+    console.log('update likes', )
 
-    const changedBlog = {
-      user: blog.user.id,
-      likes: blog.likes++,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url
+      const updatedBlog = ({
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes + 1
+      })
+      
+      props.updateBlog(updatedBlog, blog.id)
     }
 
-    blogService.update(blog.id, changedBlog)
-
-    // await blogService.update(blog.id, changedBlog)
- 
-  }
-
-  // console.log('blog', blog.user.name)
 
   const FullBlogView = () => {
     return (

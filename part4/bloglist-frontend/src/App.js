@@ -9,6 +9,8 @@ import Notification from './components/Notification'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
+import refreshDisplay from './utilities/refreshDisplay'
+
 const App = () => {
 
   // set useState variables
@@ -24,9 +26,7 @@ const App = () => {
 
   // get all initial blogs and set them to useState variable
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
+    refreshDisplay(setBlogs)
   }, [])
 
   // display all the blogs
@@ -35,7 +35,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
         )}
       </div>
     )
@@ -121,6 +121,30 @@ const App = () => {
         </div>
       </div>
     )
+  }
+
+  // handle blog update
+
+  const updateBlog = async (blogToUpdate, id) => {
+    console.log(blogToUpdate)
+    try {
+      
+      await blogService.update(id, blogToUpdate)
+
+      refreshDisplay(setBlogs)
+
+      setErrorMessage('updated blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+
+    } catch(error) {
+      console.log('error')
+      setErrorMessage('could not update blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   // creates the main page

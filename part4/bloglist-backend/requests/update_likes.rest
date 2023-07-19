@@ -6,6 +6,6 @@ authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb
     "title": "Title One",
     "author": "Author One",
     "url": "www.urlone.com",
-    "likes": 5,
-    "user": "64afdcf414f08d8b4089208e"
+    "likes": 2,
+    "user": "64b2cd054ca9eec8e72827cb"
 }

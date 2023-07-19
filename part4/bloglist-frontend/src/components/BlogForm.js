@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import blogService from '../services/blogs'
+import refreshDisplay from '../utilities/refreshDisplay'
 
 const BlogForm = ({setBlogs, blogs, setBlogVisible, setErrorMessage}) => {
   
@@ -46,9 +47,7 @@ const BlogForm = ({setBlogs, blogs, setBlogVisible, setErrorMessage}) => {
 
     setBlogVisible(false) 
 
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs ),
-    )  
+    refreshDisplay(setBlogs) 
 
     setErrorMessage('blog added')
       setTimeout(() => {

@@ -55,20 +55,25 @@ blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) =
 
 })
 
-blogsRouter.put('/:id', async (request, response, next) => {
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response, next) => {
   const body = request.body
+  const user = request.user
 
   const blog = {
-    user: user.id,
     id: body.id,
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes
+    likes: body.likes,
+    user: user.id
   }
 
-  const updatedNote = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.json(updatedNote)
+  try {
+    const updatedNote = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
+    response.json(updatedNote)
+  } catch(error) {
+    console.log('put request', error)
+  }
 
 
 })
