@@ -35,7 +35,7 @@ const App = () => {
       <div>
         <h2>blogs</h2>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog}/>
+          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} deleteBlog={deleteBlog} user={user}/>
         )}
       </div>
     )
@@ -146,6 +146,29 @@ const App = () => {
       }, 5000)
     }
   }
+
+    // handle blog delete
+
+    const deleteBlog = async (id) => {
+
+      try {
+        
+        await blogService.remove(id)
+  
+        refreshDisplay(setBlogs)
+  
+        setErrorMessage('deleted blog')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+  
+      } catch(error) {
+        setErrorMessage('could not delete blog')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }
+    }
 
   // creates the main page
   return (

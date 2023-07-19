@@ -1,8 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const Blog = (props) => {
   const blog = props.blog
   const [viewBlogState, setViewBlogState] = useState('')
+  const [deleteVisible, setDeleteVisible] = useState(true)
+
+  useEffect(() => {
+    const blogUser = blog.user.username.toString()
+    const currentUser = props.user.username.toString()
+  
+    if (blogUser === currentUser) {
+      setDeleteVisible(true)
+    } else {
+      setDeleteVisible(false)
+    }
+  }, [])
 
   const blogStyle = {
     paddingTop: 10,
@@ -13,12 +25,15 @@ const Blog = (props) => {
     display: viewBlogState ? '' : 'none'
   }
 
+  const deleteBtnStyle = {
+    display: deleteVisible ? '' : 'none'
+  }
+
   const handleView = () => {
     setViewBlogState(!viewBlogState)
   }
 
   const updateLikes = async () => {
-    console.log('update likes', )
 
       const updatedBlog = ({
         title: blog.title,
@@ -28,7 +43,20 @@ const Blog = (props) => {
       })
       
       props.updateBlog(updatedBlog, blog.id)
-    }
+  }
+
+  const deleteBlog = async () => {
+    props.deleteBlog(blog.id)
+  }
+
+  const deleteBtn = () => {
+
+    return (
+      <div style={deleteBtnStyle}>
+        <button onClick={deleteBlog}>delete</button><br />
+      </div>
+    )
+  }
 
 
   const FullBlogView = () => {
@@ -37,6 +65,7 @@ const Blog = (props) => {
         {blog.url} <br />
         likes {blog.likes} <button onClick={updateLikes}>like</button> <br />
         {blog.user.name}<br />
+        {deleteBtn()}
       </div>
     )
   }
