@@ -2,26 +2,26 @@ import { useState } from 'react'
 import blogService from '../services/blogs'
 import refreshDisplay from '../utilities/refreshDisplay'
 
-const BlogForm = ({setBlogs, blogs, setBlogVisible, setErrorMessage}) => {
-  
+const BlogForm = ({ setBlogs, blogs, setBlogVisible, setErrorMessage }) => {
+
   const [newTitle, setNewTitle] = useState('')
   const [newAuthor, setNewAuthor] = useState('')
   const [newURL, setnewURL] = useState('')
-    
-    // handles changes in the form
 
-    const handleTitleChange = (event) => {
-      setNewTitle(event.target.value)
-    }
-  
-    const handleAuthorChange = (event) => {
-      setNewAuthor(event.target.value)
-    }
-  
-    const handleURLChange = (event) => {
-      setnewURL(event.target.value)
-    }
-  
+  // handles changes in the form
+
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value)
+  }
+
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value)
+  }
+
+  const handleURLChange = (event) => {
+    setnewURL(event.target.value)
+  }
+
   // handles adding a new blog
 
   const addBlog = async (event) => {
@@ -35,21 +35,21 @@ const BlogForm = ({setBlogs, blogs, setBlogVisible, setErrorMessage}) => {
 
     try {
 
-    await blogService
-      .create(newBlog)
-      .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-      setNewTitle('')
-      setNewAuthor('')
-      setnewURL('')
-    })
+      await blogService
+        .create(newBlog)
+        .then(returnedBlog => {
+          setBlogs(blogs.concat(returnedBlog))
+          setNewTitle('')
+          setNewAuthor('')
+          setnewURL('')
+        })
 
 
-    setBlogVisible(false) 
+      setBlogVisible(false)
 
-    refreshDisplay(setBlogs) 
+      refreshDisplay(setBlogs)
 
-    setErrorMessage('blog added')
+      setErrorMessage('blog added')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -78,9 +78,9 @@ const BlogForm = ({setBlogs, blogs, setBlogVisible, setErrorMessage}) => {
       </p>
 
       <button type="submit">add</button>
-    </form>     
+    </form>
 
-  ) 
+  )
 }
 
 export default BlogForm

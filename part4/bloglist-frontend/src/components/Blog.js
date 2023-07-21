@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
 
 const Blog = (props) => {
@@ -8,7 +9,7 @@ const Blog = (props) => {
   useEffect(() => {
     const blogUser = blog.user.username.toString()
     const currentUser = props.user.username.toString()
-  
+
     if (blogUser === currentUser) {
       setDeleteVisible(true)
     } else {
@@ -35,14 +36,14 @@ const Blog = (props) => {
 
   const updateLikes = async () => {
 
-      const updatedBlog = ({
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-        likes: blog.likes + 1
-      })
-      
-      props.updateBlog(updatedBlog, blog.id)
+    const updatedBlog = ({
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
+      likes: blog.likes + 1
+    })
+
+    props.updateBlog(updatedBlog, blog.id)
   }
 
   const deleteBlog = async () => {
@@ -61,7 +62,7 @@ const Blog = (props) => {
 
   const FullBlogView = () => {
     return (
-      <div style={blogStyle}> 
+      <div style={blogStyle}>
         {blog.url} <br />
         likes {blog.likes} <button onClick={updateLikes}>like</button> <br />
         {blog.user.name}<br />
@@ -71,10 +72,10 @@ const Blog = (props) => {
   }
 
   return (
-    <div>
+    <div className='blog'>
       <b>{blog.title} by {blog.author}</b> <button onClick={handleView}>{viewBlogState === true ? 'hide' : 'view'}</button>
       <FullBlogView />
-    </div>  
+    </div>
   )
 }
 

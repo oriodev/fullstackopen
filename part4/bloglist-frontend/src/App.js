@@ -17,7 +17,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
 
   const [errorMessage, setErrorMessage] = useState('')
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -72,7 +72,7 @@ const App = () => {
       setErrorMessage('failed to login')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)    
+      }, 5000)
     }
 
   }
@@ -83,9 +83,9 @@ const App = () => {
     window.localStorage.removeItem('loggedUser')
     setUser(null)
     setErrorMessage('logged out')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
 
   // keeps a user logged in
@@ -111,13 +111,13 @@ const App = () => {
           <button onClick={() => setBlogVisible(true)}>add blog</button>
         </div>
         <div style={showWhenVisible}>
-          <BlogForm 
-              setBlogs={setBlogs}
-              blogs={blogs}
-              setBlogVisible={setBlogVisible}
-              setErrorMessage={setErrorMessage}
-            />
-            <button onClick={() => setBlogVisible(false)}>cancel</button>
+          <BlogForm
+            setBlogs={setBlogs}
+            blogs={blogs}
+            setBlogVisible={setBlogVisible}
+            setErrorMessage={setErrorMessage}
+          />
+          <button onClick={() => setBlogVisible(false)}>cancel</button>
         </div>
       </div>
     )
@@ -128,7 +128,7 @@ const App = () => {
   const updateBlog = async (blogToUpdate, id) => {
     console.log(blogToUpdate)
     try {
-      
+
       await blogService.update(id, blogToUpdate)
 
       refreshDisplay(setBlogs)
@@ -147,28 +147,28 @@ const App = () => {
     }
   }
 
-    // handle blog delete
+  // handle blog delete
 
-    const deleteBlog = async (id) => {
+  const deleteBlog = async (id) => {
 
-      try {
-        
-        await blogService.remove(id)
-  
-        refreshDisplay(setBlogs)
-  
-        setErrorMessage('deleted blog')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-  
-      } catch(error) {
-        setErrorMessage('could not delete blog')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      }
+    try {
+
+      await blogService.remove(id)
+
+      refreshDisplay(setBlogs)
+
+      setErrorMessage('deleted blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+
+    } catch(error) {
+      setErrorMessage('could not delete blog')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     }
+  }
 
   // creates the main page
   return (
@@ -179,18 +179,18 @@ const App = () => {
 
       {/* displays login form */}
 
-      {!user && loginForm(handleLogin, username, setUsername, password, setPassword)} 
+      {!user && loginForm(handleLogin, username, setUsername, password, setPassword)}
 
       {user && <div>
-          <p>{user.name} logged in </p> {logoutBtn(logout)}
-          {blogForm()}
-          {blogDisplay()}
-        </div>
+        <p>{user.name} logged in </p> {logoutBtn(logout)}
+        {blogForm()}
+        {blogDisplay()}
+      </div>
       }
 
     </div>
-  
-   )
+
+  )
 }
 
 export default App

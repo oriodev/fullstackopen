@@ -2,7 +2,8 @@ const loginForm = (handleLogin, username, setUsername, password, setPassword) =>
   <form onSubmit={handleLogin}>
     <div>
       username
-        <input
+      <input
+        id='username'
         type="text"
         value={username}
         name="Username"
@@ -11,15 +12,16 @@ const loginForm = (handleLogin, username, setUsername, password, setPassword) =>
     </div>
     <div>
       password
-        <input
-        type="password"
+      <input
+        id='password'
+        type='password'
         value={password}
         name="Password"
         onChange={({ target }) => setPassword(target.value)}
       />
     </div>
-    <button type="submit">login</button>
-  </form>      
+    <button id='login-button' type="submit">login</button>
+  </form>
 )
 
 export default loginForm
