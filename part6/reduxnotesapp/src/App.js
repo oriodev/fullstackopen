@@ -1,8 +1,15 @@
-const App = () => (
+import { NewNote } from './components/NewNote'
+import { Notes } from './components/Notes'
+
+const App = () => {
+
+  return (
+    <div>
+      <NewNote />
+      <Notes />
+    </div>
+  )
   
-  <div>
-    <p>Hello world</p>
-  </div>
-)
+}
 
 export default App
