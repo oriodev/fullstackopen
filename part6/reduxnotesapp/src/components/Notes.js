@@ -10,10 +10,10 @@ const Note = ({ note, handleClick }) => {
   )
 }
 
-const Notes = () => {
+export const Notes = () => {
 
   const dispatch = useDispatch()
-  const notes = useSelector(state => state)
+  const notes = useSelector(state => state.notes)
 
   return(
     <ul>
@@ -29,5 +29,3 @@ const Notes = () => {
     </ul>
   )
 }
-
-export default Notes

@@ -1,4 +1,19 @@
-const noteReducer = (state = [], action) => {
+const initialState = [
+  {
+    content: 'reducer defines how redux store works',
+    important: true,
+    id: 1,
+  },
+  {
+    content: 'state of store can contain any data',
+    important: false,
+    id: 2,
+  },
+]
+
+// reducers
+
+const noteReducer = (state = initialState, action) => {
   switch(action.type) {
     case 'NEW_NOTE':
       return [...state, action.payload]
@@ -17,6 +32,8 @@ const noteReducer = (state = [], action) => {
       return state
   }
 }
+
+// action creators
 
 const generateId = () => Number((Math.random() * 1000000).toFixed(0))
 

@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { createNote } from '../reducers/noteReducer'
 
-const NewNote = () => {
+export const NewNote = () => {
 
   const dispatch = useDispatch()
 
@@ -20,5 +20,3 @@ const NewNote = () => {
     </form>
   )
 }
-
-export default NewNote
