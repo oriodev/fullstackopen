@@ -5,7 +5,15 @@ export const AnecdoteList = () => {
 
   const dispatch = useDispatch()
 
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(({ filter, anecdotes }) => {
+    // console.log(state.filter)
+    if ( filter === '' ) {
+      return anecdotes
+    }
+    
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.filter.toLowerCase()))
+
+    })
 
   return (
     <div>

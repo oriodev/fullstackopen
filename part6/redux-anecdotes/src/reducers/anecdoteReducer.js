@@ -55,7 +55,7 @@ const reducer = (state = initialState, action) => {
         anecdote.id !== id ? anecdote : changedAnecdote)
 
     case 'CREATE':
-      console.log(action.payload.content)
+      // console.log(action.payload.content)
       
       const newAnecdote = asObject(action.payload.content)
 
