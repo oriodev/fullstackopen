@@ -6,18 +6,19 @@ export const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   const anecdotes = useSelector(({ filter, anecdotes }) => {
-    // console.log(state.filter)
+
     if ( filter === '' ) {
       return anecdotes
     }
     
-    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.filter.toLowerCase()))
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
 
     })
 
+
   return (
     <div>
-      {anecdotes.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes))
+      {anecdotes.toSorted((a, b) => parseFloat(b.votes) - parseFloat(a.votes))
                 .map(anecdote =>
                 <div key={anecdote.id}>
                   <div>
