@@ -7,13 +7,28 @@
     },
     {
       "content": "state changes are made with actions",
-      "important": false,
+      "important": true,
       "id": 2
     },
     {
       "content": "sdfsdf",
-      "important": false,
+      "important": true,
       "id": 3
+    },
+    {
+      "content": "klkjl",
+      "important": true,
+      "id": 4
+    },
+    {
+      "content": "hello",
+      "important": true,
+      "id": 5
+    },
+    {
+      "content": "jlkjlk",
+      "important": true,
+      "id": 6
     }
   ]
 }
